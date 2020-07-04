@@ -1,4 +1,5 @@
-// Fake users data
+import fuzzysearch from "fuzzysearch";
+
 const data = [
 	{
 		folderArray: ["", "how-to"],
@@ -200,15 +201,22 @@ const data = [
 	},
 ];
 
+const baseUrl = "https://design.unibuddy.com";
+
 export default function handler(req, res) {
-	// Get data from your database
+	if (!req.body.text) {
+		res.status(200).send("You must input a search term");
+		return;
+	}
+
 	const searchTerm = req.body.text.toLowerCase();
-	const baseUrl = "https://design.unibuddy.com/";
 	const finds = [];
 	for (const item of data) {
-		const str = (item.path + item.name).toLowerCase();
-		if (str.includes(searchTerm)) finds.push(item);
+		const searchThrough = (item.path + item.name).toLowerCase();
+		if (fuzzysearch(searchTerm, searchThrough)) finds.push(item);
 	}
-	const result = finds.map((item) => baseUrl + item.path).join("\n");
+	const result = finds
+		.map((item) => `${item.name} - ${baseUrl + item.path}`)
+		.join("\n");
 	res.status(200).send(result);
 }
