@@ -202,6 +202,13 @@ const data = [
 
 export default function handler(req, res) {
 	// Get data from your database
-	req.search;
-	res.status(200).json({query: req.query, body: req.body});
+	const searchTerm = req.body.text.toLowerCase();
+	const baseUrl = "https://design.unibuddy.com/";
+	const finds = [];
+	for (const item of data) {
+		const str = (item.path + item.name).toLowerCase();
+		if (str.includes(searchTerm)) finds.push(item);
+	}
+	const result = finds.map((item) => baseUrl + item.path).join("\n");
+	res.status(200).text(result);
 }
