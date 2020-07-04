@@ -210,5 +210,5 @@ export default function handler(req, res) {
 		if (str.includes(searchTerm)) finds.push(item);
 	}
 	const result = finds.map((item) => baseUrl + item.path).join("\n");
-	res.status(200).text(result);
+	res.status(200).send(result);
 }
