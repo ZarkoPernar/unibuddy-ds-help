@@ -203,5 +203,5 @@ const data = [
 export default function handler(req, res) {
 	// Get data from your database
 	req.search;
-	res.status(200).json(JSON.stringify(req.search, req.body));
+	res.status(200).json({query: req.query, body: req.body});
 }
