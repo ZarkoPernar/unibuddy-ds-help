@@ -291,6 +291,6 @@ export default async function handler(req, res) {
 		//     </html>`,
 		// );
 	} else {
-		res.status(200).send("We ain't found shit");
+		res.status(200).send("We ain't found shit!");
 	}
 }
