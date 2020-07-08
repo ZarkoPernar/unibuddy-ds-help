@@ -226,7 +226,10 @@ export default async function handler(req, res) {
 			.map((item) => `${item.name} - ${baseUrl + item.path}`)
 			.join("\n");
 
-		const browser = await puppeteer.launch();
+		const browser = await puppeteer.launch({
+			headless: true,
+			args: ["--no-sandbox", "--disable-setuid-sandbox"],
+		});
 		const maybeImages = await Promise.all(
 			finds.map(async (item) => {
 				const page = await browser.newPage();
