@@ -14,37 +14,39 @@ const sendPicture = async ({finds, responseUrl}) => {
 		finds.map(async (item) => {
 			const page = await browser.newPage();
 			await page.goto(baseUrl + item.path);
+			const $intro = await page.$("h1 + p");
+			const intro = await $intro.evaluate((node) => node.textContent);
 
-			const element = await page.$(
-				'[href^="https://playroom.unibuddy.io/preview"]',
-			);
+			// const element = await page.$(
+			// 	'[href^="https://playroom.unibuddy.io/preview"]',
+			// );
 
-			if (!element) return;
+			// if (!element) return;
 
-			const previewUrl = await element.evaluate((node) => node.href);
-			await page.goto(previewUrl);
-			const previewElement = await page.$(
-				'[class*="SplashScreen__hideSplash"]',
-			);
-			await wait(4000);
-			const bodyEl = await page.$("body");
-			const rect = await bodyEl.boxModel();
-			const width = parseInt(rect.width);
-			const height = parseInt(rect.height);
-			await page.setViewport({
-				width,
-				height,
-			});
-			const result = await page.screenshot({
-				clip: {
-					x: 0,
-					y: 0,
-					width,
-					height,
-				},
-			});
-			const image = result; //.toString("base64");
-			return {image, item};
+			// const previewUrl = await element.evaluate((node) => node.href);
+			// await page.goto(previewUrl);
+			// const previewElement = await page.$(
+			// 	'[class*="SplashScreen__hideSplash"]',
+			// );
+			// await wait(4000);
+			// const bodyEl = await page.$("body");
+			// const rect = await bodyEl.boxModel();
+			// const width = parseInt(rect.width);
+			// const height = parseInt(rect.height);
+			// await page.setViewport({
+			// 	width,
+			// 	height,
+			// });
+			// const result = await page.screenshot({
+			// 	clip: {
+			// 		x: 0,
+			// 		y: 0,
+			// 		width,
+			// 		height,
+			// 	},
+			// });
+			// const image = result.toString("base64");
+			return {image, item, intro};
 		}),
 	);
 
@@ -54,10 +56,17 @@ const sendPicture = async ({finds, responseUrl}) => {
 
 	axios
 		.post(responseUrl, {
-			blocks: items.map(({image, item}) => ({
-				type: "image",
-				image_url: `data:image/png;base64,${image}`,
-				alt_text: item.name,
+			// blocks: items.map(({image, item}) => ({
+			// 	type: "image",
+			// 	image_url: `data:image/png;base64,${image}`,
+			// 	alt_text: item.name,
+			// })),
+			blocks: items.map(({item, intro}) => ({
+				type: "section",
+				text: {
+					type: "mrkdwn",
+					text: `*${item.name}* \n ${intro}`,
+				},
 			})),
 		})
 		.then((res) => {
