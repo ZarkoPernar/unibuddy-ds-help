@@ -43,7 +43,7 @@ const sendPicture = async ({finds, responseUrl}) => {
 					height,
 				},
 			});
-			const image = result.toString("base64");
+			const image = result; //.toString("base64");
 			return {image, item};
 		}),
 	);
