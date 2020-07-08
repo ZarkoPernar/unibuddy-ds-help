@@ -8,11 +8,18 @@
 		"heroku-postbuild": "npm run build"
 	},
 	"dependencies": {
+		"puppeteer": "5.0.0",
+		"@reach/combobox": "^0.10.5",
+		"@reach/popover": "^0.10.5",
 		"fuzzysearch": "^1.0.3",
 		"next": "latest",
 		"react": "^16.8.6",
 		"react-dom": "^16.8.6",
+		"styled-components": "^5.1.1",
 		"swr": "^0.1.18"
 	},
-	"license": "ISC"
+	"license": "ISC",
+	"devDependencies": {
+		"babel-plugin-styled-components": "^1.10.7"
+	}
 }
