@@ -10,7 +10,7 @@
 	"dependencies": {
 		"@reach/combobox": "^0.10.5",
 		"@reach/popover": "^0.10.5",
-		"axios": "^0.19.2",
+		"axios": "^0.21.1",
 		"fuzzysearch": "^1.0.3",
 		"next": "latest",
 		"puppeteer": "5.0.0",
